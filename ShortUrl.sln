@@ -7,6 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShortUrl.Console", "ShortUr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShortUrl.Api", "ShortUrl.Api\ShortUrl.Api.csproj", "{09D08ED7-25D1-4D56-838B-A448D85BA8CE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShortUrl.Entities", "ShortUrl.Entities\ShortUrl.Entities.csproj", "{6950468C-7094-4EC2-A245-A24435EA82EA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShortUrl.Repository", "ShortUrl.Repository\ShortUrl.Repository.csproj", "{01CB233E-CDB0-473E-BFE7-D520A127EE45}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{09D08ED7-25D1-4D56-838B-A448D85BA8CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{09D08ED7-25D1-4D56-838B-A448D85BA8CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{09D08ED7-25D1-4D56-838B-A448D85BA8CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6950468C-7094-4EC2-A245-A24435EA82EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6950468C-7094-4EC2-A245-A24435EA82EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6950468C-7094-4EC2-A245-A24435EA82EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6950468C-7094-4EC2-A245-A24435EA82EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01CB233E-CDB0-473E-BFE7-D520A127EE45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01CB233E-CDB0-473E-BFE7-D520A127EE45}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01CB233E-CDB0-473E-BFE7-D520A127EE45}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01CB233E-CDB0-473E-BFE7-D520A127EE45}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
