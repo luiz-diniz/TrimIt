@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ShortUrl.Models\ShortUrl.Entities.csproj" />
+    <ProjectReference Include="..\ShortUrl.Entities\ShortUrl.Entities.csproj" />
   </ItemGroup>
 
 </Project>
