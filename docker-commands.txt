@@ -1,0 +1,9 @@
+docker network create container-network
+
+docker run -d --name pgadmin-container --network container-network -e "PGADMIN_DEFAULT_EMAIL=admin@admin.com" -e "PGADMIN_DEFAULT_PASSWORD=admin" -p 80:80 dpage/pgadmin4
+
+docker run -d --name postgres-container --network container-network -e POSTGRES_PASSWORD=admin postgres
+
+
+user: postgresql
+password: admin
