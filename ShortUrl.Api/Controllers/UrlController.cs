@@ -1,18 +1,14 @@
-﻿using Base62;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using ShortUrl.Core.Exceptions;
 using ShortUrl.Core.Interfaces;
 using ShortUrl.Core.Models;
-using ShortUrl.Entities;
-using ShortUrl.Repository;
-using ShortUrl.Repository.Interfaces;
-using System.Security.Cryptography;
-using System.Text;
+using System.Net;
 
 namespace ShortUrl.Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class UrlController : ControllerBase
+    public class UrlController : ApiControllerBase
     {
         private readonly ILogger<UrlController> _logger;
         private readonly IUrlService _urlService;
@@ -23,6 +19,26 @@ namespace ShortUrl.Api.Controllers
             _urlService = urlService;
         }
 
+        [HttpPost]
+        public IActionResult Create([FromBody] UrlModel url)
+        {
+            try
+            {
+                var shortUrl = _urlService.Create(url);
+
+                return ReturnOk("domain.com/" + shortUrl);
+            }
+            catch(InvalidUrlException ex)
+            {
+                return ReturnError(_logger, ex);
+            }
+            catch (Exception ex)
+            {
+                return ReturnError(_logger, ex);
+
+            }
+        }
+
         [HttpGet]
         [Route("/{shortUrl}")]
         public IActionResult Get(string shortUrl)
@@ -31,28 +47,16 @@ namespace ShortUrl.Api.Controllers
             {
                 var url = _urlService.GetUrl(shortUrl);
 
-                return Ok(url);
+                return ReturnOk(url);
+            }
+            catch (InvalidUrlException ex)
+            {
+                return ReturnError(_logger, ex);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, ex.Message);
-                return BadRequest();
-            }
-        }
+                return ReturnError(_logger, ex);
 
-        [HttpPost]
-        public IActionResult Create([FromBody] UrlModel url)
-        {
-            try
-            {
-                var shortUrl = _urlService.Create(url);
-
-                return Ok("yoururl.io/" + shortUrl);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, ex.Message);
-                return BadRequest();
             }
         }
     }

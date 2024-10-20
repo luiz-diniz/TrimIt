@@ -1,4 +1,5 @@
 ﻿using Base62;
+using ShortUrl.Core.Exceptions;
 using ShortUrl.Core.Extensions;
 using ShortUrl.Core.Interfaces;
 using ShortUrl.Core.Models;
@@ -34,7 +35,7 @@ namespace ShortUrl.Core
         public string GetUrl(string shortUrl)
         {
             if(string.IsNullOrEmpty(shortUrl))
-                throw new ArgumentNullException(nameof(shortUrl));
+                throw new InvalidUrlException("Invalid short URL.");
 
             return _urlRepository.GetUrl(shortUrl);
         }
@@ -51,10 +52,10 @@ namespace ShortUrl.Core
         private void ValidateUrl(UrlModel url)
         {
             if(url is null)
-                throw new ArgumentNullException(nameof(url));
+                throw new InvalidUrlException("Invalid URL object.");
 
             if (string.IsNullOrWhiteSpace(url.OriginalUrl))
-                throw new ArgumentNullException(nameof(url.OriginalUrl));
+                throw new InvalidUrlException("Invalid URL.");
         }
     }
 }
