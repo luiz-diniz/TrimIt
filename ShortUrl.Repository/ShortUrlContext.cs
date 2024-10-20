@@ -7,9 +7,8 @@ namespace ShortUrl.Repository
     {
         public DbSet<Url> Urls { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseNpgsql("User ID=postgres;Password=admin;Host=localhost;Port=5432;Database=shorturl");
+        public ShortUrlContext(DbContextOptions<ShortUrlContext> options) : base(options)
+        {            
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
