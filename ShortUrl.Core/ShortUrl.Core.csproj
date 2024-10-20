@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Base62-Net" Version="1.2.157201" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ShortUrl.Entities\ShortUrl.Entities.csproj" />
+    <ProjectReference Include="..\ShortUrl.Repository\ShortUrl.Repository.csproj" />
+  </ItemGroup>
+
+</Project>

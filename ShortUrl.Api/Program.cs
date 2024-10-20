@@ -1,14 +1,24 @@
+using Microsoft.EntityFrameworkCore;
+using ShortUrl.Core;
+using ShortUrl.Core.Interfaces;
 using ShortUrl.Repository;
+using ShortUrl.Repository.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<ShortUrlContext>();
+
+var connectionString = builder.Configuration.GetConnectionString("Default");
+
+builder.Services.AddDbContext<ShortUrlContext>(options =>
+{
+    options.UseNpgsql(connectionString);
+});
+
+builder.Services.AddScoped<IUrlService, UrlService>();
+builder.Services.AddScoped<IUrlRepository, UrlRepository>();
 
 var app = builder.Build();
 

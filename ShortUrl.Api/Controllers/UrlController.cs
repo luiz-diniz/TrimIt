@@ -1,7 +1,10 @@
 ﻿using Base62;
 using Microsoft.AspNetCore.Mvc;
+using ShortUrl.Core.Interfaces;
+using ShortUrl.Core.Models;
 using ShortUrl.Entities;
 using ShortUrl.Repository;
+using ShortUrl.Repository.Interfaces;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -12,43 +15,45 @@ namespace ShortUrl.Api.Controllers
     public class UrlController : ControllerBase
     {
         private readonly ILogger<UrlController> _logger;
+        private readonly IUrlService _urlService;
 
-        public UrlController(ILogger<UrlController> logger)
+        public UrlController(ILogger<UrlController> logger, IUrlService urlService)
         {
             _logger = logger;
+            _urlService = urlService;
         }
 
         [HttpGet]
         [Route("/{shortUrl}")]
         public IActionResult Get(string shortUrl)
         {
-            var repository = new UrlRepository();
+            try
+            {
+                var url = _urlService.GetUrl(shortUrl);
 
-            var url = repository.GetUrl(shortUrl);
-
-            return Ok(url);
+                return Ok(url);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                return BadRequest();
+            }
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] string url)
+        public IActionResult Create([FromBody] UrlModel url)
         {
-            var repository = new UrlRepository();
-            var shortUrl = string.Empty;
-
-            using (var md5 = MD5.Create())
+            try
             {
-                var urlBytes = Encoding.ASCII.GetBytes(url);
-                shortUrl = md5.ComputeHash(urlBytes).ToBase62();
+                var shortUrl = _urlService.Create(url);
+
+                return Ok("yoururl.io/" + shortUrl);
             }
-
-            repository.Create(new Url
+            catch (Exception ex)
             {
-                ExpiryDate = DateTime.UtcNow,
-                OriginalUrl = url,
-                ShortUrl = shortUrl
-            });
-
-            return Ok("yoururl.io/" + shortUrl);
+                _logger.LogError(ex, ex.Message);
+                return BadRequest();
+            }
         }
     }
 }
