@@ -30,32 +30,32 @@ namespace ShortUrl.Api.Controllers
             }
             catch(InvalidUrlException ex)
             {
-                return ReturnError(_logger, ex);
+                return ReturnError(HttpStatusCode.BadRequest, _logger, ex);
             }
             catch (Exception ex)
             {
-                return ReturnError(_logger, ex);
+                return ReturnError(HttpStatusCode.InternalServerError, _logger, ex);
 
             }
         }
 
         [HttpGet]
-        [Route("/{shortUrl}")]
-        public IActionResult Get(string shortUrl)
+        [Route("/{url}")]
+        public IActionResult Get(string url)
         {
             try
             {
-                var url = _urlService.GetUrl(shortUrl);
+                var originalUrl = _urlService.GetUrl(url);
 
-                return ReturnOk(url);
+                return ReturnOk(originalUrl);
             }
             catch (InvalidUrlException ex)
             {
-                return ReturnError(_logger, ex);
+                return ReturnError(HttpStatusCode.BadRequest, _logger, ex);
             }
             catch (Exception ex)
             {
-                return ReturnError(_logger, ex);
+                return ReturnError(HttpStatusCode.InternalServerError, _logger, ex);
 
             }
         }

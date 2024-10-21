@@ -12,10 +12,10 @@ namespace ShortUrl.Api
             });
         }
 
-        protected IActionResult ReturnError(ILogger logger, Exception ex)
+        protected IActionResult ReturnError(HttpStatusCode status, ILogger logger, Exception ex)
         {
             logger.LogError(ex, ex.Message);
-            return StatusCode((int)HttpStatusCode.InternalServerError, new
+            return StatusCode((int)status, new
             {
                 error = ex.Message
             });
