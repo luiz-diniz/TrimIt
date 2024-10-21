@@ -1,5 +1,4 @@
 ﻿using ShortUrl.Core.Models;
-using ShortUrl.Entities;
 
 namespace ShortUrl.Core.Interfaces
 {
