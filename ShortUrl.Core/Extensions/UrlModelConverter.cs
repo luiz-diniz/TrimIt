@@ -10,7 +10,7 @@ namespace ShortUrl.Core.Extensions
             return new Url
             {
                 OriginalUrl = urlModel.OriginalUrl,
-                ExpiryDate = urlModel.ExpiryDate
+                ExpiryDate = urlModel.ExpiryDate ?? DateTime.Now.AddDays(7)
             };
         }
     }

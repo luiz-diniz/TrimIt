@@ -56,7 +56,6 @@ namespace ShortUrl.Api.Controllers
             catch (Exception ex)
             {
                 return ReturnError(HttpStatusCode.InternalServerError, _logger, ex);
-
             }
         }
     }

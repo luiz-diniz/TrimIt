@@ -6,6 +6,6 @@ namespace ShortUrl.Core.Models
     {
         [Required]
         public string OriginalUrl { get; set; }
-        public DateTime ExpiryDate { get; set; }
+        public DateTime? ExpiryDate { get; set; }
     }
 }
