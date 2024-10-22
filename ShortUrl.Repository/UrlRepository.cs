@@ -18,7 +18,7 @@ namespace ShortUrl.Repository
             _context.SaveChanges();         
         }
 
-        public string GetUrl(string shortUrl)
+        public string? GetUrl(string shortUrl)
         {
             var url = _context.Urls.Where(x => x.ShortUrl == shortUrl)
                     .Select(x => x.OriginalUrl)

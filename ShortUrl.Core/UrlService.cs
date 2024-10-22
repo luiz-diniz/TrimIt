@@ -29,7 +29,15 @@ namespace ShortUrl.Core
 
                 var urlEntity = url.ToUrlEntity();
 
-                urlEntity.ShortUrl = CreateShortUrl(url.OriginalUrl);
+                while (string.IsNullOrWhiteSpace(urlEntity.ShortUrl))
+                {
+                    var shortUrl = CreateShortUrl(url.OriginalUrl);
+
+                    if (_urlRepository.GetUrl(shortUrl) is not null)
+                        continue;
+
+                    urlEntity.ShortUrl = shortUrl;
+                }
 
                 _urlRepository.Create(urlEntity);
 
@@ -61,10 +69,10 @@ namespace ShortUrl.Core
         private string CreateShortUrl(string originalUrl)
         {
             using var md5 = MD5.Create();
-            
-            var urlBytes = Encoding.ASCII.GetBytes(originalUrl);
 
-            return md5.ComputeHash(urlBytes).ToBase62();         
+            var urlBytes = Encoding.ASCII.GetBytes($"{originalUrl}{Guid.NewGuid()}");
+
+            return md5.ComputeHash(urlBytes).ToBase62().Substring(0, 8);         
         }
 
         private void ValidateUrl(UrlModel url)
