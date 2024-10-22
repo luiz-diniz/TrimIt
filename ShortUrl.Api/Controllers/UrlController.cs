@@ -40,7 +40,7 @@ namespace ShortUrl.Api.Controllers
         }
 
         [HttpGet]
-        [Route("/{shortUrl}")]
+        [Route("{shortUrl}")]
         public IActionResult Get(string shortUrl)
         {
             try

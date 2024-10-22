@@ -31,7 +31,7 @@ namespace ShortUrl.Core
 
                 while (string.IsNullOrWhiteSpace(urlEntity.ShortUrl))
                 {
-                    var shortUrl = CreateShortUrl(url.OriginalUrl);
+                    var shortUrl = CreateShortUrl(url.Url);
 
                     if (_urlRepository.GetUrl(shortUrl) is not null)
                         continue;
@@ -78,9 +78,12 @@ namespace ShortUrl.Core
         private void ValidateUrl(UrlModel url)
         {
             if(url is null)
-                throw new InvalidUrlException("Invalid URL object.");
+                throw new InvalidUrlException("Invalid URL model object.");
 
-            if (string.IsNullOrWhiteSpace(url.OriginalUrl))
+            if (string.IsNullOrWhiteSpace(url.Url))
+                throw new InvalidUrlException("URL null or empty.");
+                       
+            if (!Uri.TryCreate(url.Url, UriKind.Absolute, out Uri? uriResult))
                 throw new InvalidUrlException("Invalid URL.");
         }
     }
