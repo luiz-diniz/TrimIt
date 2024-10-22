@@ -26,7 +26,7 @@ namespace ShortUrl.Api.Controllers
             {
                 var shortUrl = _urlService.Create(url);
 
-                return ReturnOk("domain.com/" + shortUrl);
+                return ReturnOk("localhost:4200/" + shortUrl);
             }
             catch(InvalidUrlException ex)
             {
