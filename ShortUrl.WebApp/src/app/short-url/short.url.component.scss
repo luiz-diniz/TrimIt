@@ -45,7 +45,15 @@
         }
     }
 
-    p{
+    .short-url-result{
+        width: 17rem;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
         color: #fff;
+
+        fa-icon{
+            cursor: pointer;
+        }
     }
 }

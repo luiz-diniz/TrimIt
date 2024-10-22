@@ -4,5 +4,8 @@
     <input type="text" placeholder="URL to shorten..." formControlName="url">
     <button value="Submit" [disabled]="disabledSubmit" [ngClass]="!disabledSubmit ? 'enabled' : 'disabled'">submit</button>
   </form>
-  <p *ngIf="shortUrl">{{shortUrl}}</p>
+  <div class="short-url-result" *ngIf="shortUrl">
+    <p>{{shortUrl}}</p>
+    <fa-icon (click)="copyShortUrl()" [icon]="faCopy"></fa-icon>
+  </div>
 </div>

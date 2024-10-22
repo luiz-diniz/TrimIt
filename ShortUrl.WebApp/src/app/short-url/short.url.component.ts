@@ -3,7 +3,9 @@ import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ShortUrlService } from './short.url.service';
 import { HttpClientModule } from '@angular/common/http';
-
+import { Clipboard } from '@angular/cdk/clipboard';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faCopy } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-short-url',
@@ -12,7 +14,9 @@ import { HttpClientModule } from '@angular/common/http';
     CommonModule, 
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    
+    FontAwesomeModule
   ],
   providers: [
     ShortUrlService
@@ -23,9 +27,16 @@ import { HttpClientModule } from '@angular/common/http';
 export class ShortUrlComponent {
 
   shortUrlService = inject(ShortUrlService);
+  clipboard = inject(Clipboard);
 
   form: FormGroup;
   shortUrl?: string;
+
+  faCopy = faCopy;
+
+  get disabledSubmit(){
+    return this.form.invalid;
+  }
 
   constructor() {
     this.form = new FormGroup({
@@ -46,7 +57,7 @@ export class ShortUrlComponent {
     })
   }
 
-  get disabledSubmit(){
-    return this.form.invalid;
-  }
+  copyShortUrl() {
+    this.clipboard.copy(this.shortUrl!);
+  }  
 }
