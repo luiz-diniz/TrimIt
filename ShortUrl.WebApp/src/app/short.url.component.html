@@ -1,0 +1,8 @@
+<div class="content">
+  <h1>TrimIt</h1>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <input type="text" placeholder="URL to shorten..." formControlName="url">
+    <button value="Submit" [disabled]="disabledSubmit" [ngClass]="!disabledSubmit ? 'enabled' : 'disabled'">submit</button>
+  </form>
+  <p *ngIf="shortUrl">Your URL: {{shortUrl}}</p>
+</div>

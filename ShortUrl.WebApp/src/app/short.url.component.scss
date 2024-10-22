@@ -1,0 +1,51 @@
+.content{
+    h1{
+        color: #fff;
+    }
+
+    height: 90vh;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    form{
+        margin: 1rem 0 2rem 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        input{
+            margin: 1rem;
+            height: 2rem;
+            width: 20rem;
+            border-radius: 10px;
+            background-color: #fff;
+            color: #333;
+            text-align: center;
+            border: none;
+        }
+
+        button{
+            height: 2rem;
+            width: 5rem;
+            background-color: #fff;
+            border: none;
+            color: #333;
+            border-radius: 10px;
+        }
+
+        .enabled{
+            cursor: pointer;
+        }
+
+        .disabled{
+            cursor: default;
+        }
+    }
+
+    p{
+        color: #fff;
+    }
+}
