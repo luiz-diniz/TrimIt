@@ -20,11 +20,17 @@ namespace ShortUrl.Repository
 
         public string? GetUrl(string shortUrl)
         {
-            var url = _context.Urls.Where(x => x.ShortUrl == shortUrl)
-                    .Select(x => x.OriginalUrl)
-                    .FirstOrDefault();
+            var url = _context.Urls.FirstOrDefault(x => x.ShortUrl == shortUrl);
 
-            return url;
+            if(url is null)
+                return null;
+
+            url.Clicks += 1;
+            url.LastClick = DateTime.UtcNow;
+
+            _context.SaveChanges();
+
+            return url.OriginalUrl;
         }
     }
 }
