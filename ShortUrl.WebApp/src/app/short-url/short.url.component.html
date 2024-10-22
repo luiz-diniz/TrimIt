@@ -2,6 +2,11 @@
   <h1>TrimIt</h1>
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <input type="text" placeholder="URL to shorten..." formControlName="url">
+    <ngx-recaptcha2 
+    siteKey="6Lcc9mgqAAAAAMA8D7RFm_3d907DV6ajNJvBSPhG"
+    formControlName="recaptcha"
+    #reCaptcha> 
+    </ngx-recaptcha2>
     <button value="Submit" [disabled]="disabledSubmit" [ngClass]="!disabledSubmit ? 'enabled' : 'disabled'">submit</button>
   </form>
   <div class="short-url-result" *ngIf="shortUrl">

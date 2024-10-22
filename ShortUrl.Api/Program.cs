@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using ShortUrl.Api;
+using ShortUrl.Api.Interfaces;
 using ShortUrl.Core;
 using ShortUrl.Core.Interfaces;
 using ShortUrl.Repository;
@@ -9,6 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddHttpClient();
 
 var connectionString = builder.Configuration.GetConnectionString("Default");
 
@@ -19,6 +22,8 @@ builder.Services.AddDbContext<ShortUrlContext>(options =>
 
 builder.Services.AddScoped<IUrlService, UrlService>();
 builder.Services.AddScoped<IUrlRepository, UrlRepository>();
+
+builder.Services.AddSingleton<IReCaptchaValidator, ReCaptchaValidator>();
 
 var app = builder.Build();
 

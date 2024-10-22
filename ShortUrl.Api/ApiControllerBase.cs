@@ -12,6 +12,14 @@ namespace ShortUrl.Api
             });
         }
 
+        protected IActionResult ReturnError(HttpStatusCode status, string message)
+        {
+            return StatusCode((int)status, new
+            {
+                error = message
+            });
+        }
+
         protected IActionResult ReturnError(HttpStatusCode status, ILogger logger, Exception ex)
         {
             logger.LogError(ex, ex.Message);

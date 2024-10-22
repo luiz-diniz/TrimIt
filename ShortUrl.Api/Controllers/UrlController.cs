@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ShortUrl.Api.Interfaces;
 using ShortUrl.Core.Exceptions;
 using ShortUrl.Core.Interfaces;
 using ShortUrl.Core.Models;
@@ -12,18 +13,23 @@ namespace ShortUrl.Api.Controllers
     {
         private readonly ILogger<UrlController> _logger;
         private readonly IUrlService _urlService;
+        private readonly IReCaptchaValidator _reCaptchaValidator;
 
-        public UrlController(ILogger<UrlController> logger, IUrlService urlService)
+        public UrlController(ILogger<UrlController> logger, IUrlService urlService, IReCaptchaValidator reCaptchaValidator)
         {
             _logger = logger;
             _urlService = urlService;
+            _reCaptchaValidator = reCaptchaValidator;
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] UrlModel url)
+        public async Task<IActionResult> Create([FromBody] UrlModel url)
         {
             try
             {
+                if(!await _reCaptchaValidator.ValidateReCaptcha(url.Response))
+                    return ReturnError(HttpStatusCode.BadRequest, "Invalid Captcha.");
+
                 var shortUrl = _urlService.Create(url);
 
                 return ReturnOk("localhost:4200/" + shortUrl);
