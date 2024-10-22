@@ -1,16 +1,15 @@
-import { Component, inject, Inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ShortUrlService } from './short.url.service';
 import { HttpClientModule } from '@angular/common/http';
 
+
 @Component({
-  selector: 'app-root',
+  selector: 'app-short-url',
   standalone: true,
   imports: [
     CommonModule, 
-    RouterOutlet,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule
