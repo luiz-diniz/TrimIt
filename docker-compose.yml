@@ -2,13 +2,13 @@ version: '3.8'
 
 services:
   api:
-    container_name: trimit-api-container
     image: trimit-api:latest
+    container_name: trimit-api-container
     environment:
         - ASPNETCORE_ENVIRONMENT=docker
         - ASPNETCORE_URLS=http://+:80
     ports:
-      - 81:81
+      - "80:80"
 
   postgres:
     image: postgres
@@ -17,12 +17,3 @@ services:
       POSTGRES_PASSWORD: admin
     ports:
       - "5432:5432"
-
-  pgadmin:
-    image: dpage/pgadmin4
-    container_name: pgadmin-container
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@admin.com
-      PGADMIN_DEFAULT_PASSWORD: admin
-    ports:
-      - "80:80"
