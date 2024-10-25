@@ -6,6 +6,8 @@ services:
     container_name: postgres-container
     environment:
       POSTGRES_PASSWORD: password_to_be_defined
+    ports:
+      - "5432:5432"
 
   pgadmin:
     image: dpage/pgadmin4
