@@ -27,14 +27,14 @@ namespace ShortUrl.Api.Controllers
         {
             try
             {
-                if(!await _reCaptchaValidator.ValidateReCaptcha(url.Response))
+                if (!await _reCaptchaValidator.ValidateReCaptcha(url.Response))
                     return ReturnError(HttpStatusCode.BadRequest, "Invalid Captcha.");
 
                 var shortUrl = _urlService.Create(url);
 
-                return ReturnOk("localhost:4200/" + shortUrl);
+                return ReturnOk(shortUrl);
             }
-            catch(InvalidUrlException ex)
+            catch (InvalidUrlException ex)
             {
                 return ReturnError(HttpStatusCode.BadRequest, _logger, ex);
             }
