@@ -4,6 +4,11 @@ docker run -d --name pgadmin-container --network container-network -e "PGADMIN_D
 
 docker run -d --name postgres-container --network container-network -e POSTGRES_PASSWORD=admin postgres
 
-
-user: postgresql
-password: admin
+aws dynamodb create-table ^
+    --table-name Urls ^
+    --attribute-definitions ^
+        AttributeName=ShortUrl,AttributeType=S ^
+    --key-schema ^
+        AttributeName=ShortUrl,KeyType=HASH ^
+    --provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5 ^
+    --endpoint-url http://localhost:8000
