@@ -6,6 +6,10 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <InvariantGlobalization>true</InvariantGlobalization>
     <UserSecretsId>3dfa29a6-72ac-40b1-8f37-37b17f224c6c</UserSecretsId>
+	<ContainerImageName>trimit-api</ContainerImageName>
+	<ContainerImageTags>latest</ContainerImageTags>
+	<PublishProfile>DefaultContainer</PublishProfile>
+	<RuntimeIdentifier>linux-x64</RuntimeIdentifier>
   </PropertyGroup>
 
   <ItemGroup>
