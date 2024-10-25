@@ -69,13 +69,15 @@ namespace ShortUrl.Core
                     var url = _urlRepository.GetUrl(shortUrl);
 
                     if(url is not null)
+                    {
+                        _urlRepository.UpdateClicks(shortUrl);
                         _cache.Set(shortUrl, url, TimeSpan.FromMinutes(30));
+                    }
 
                     return url;
                 }
 
                 _urlRepository.UpdateClicks(shortUrl);
-
                 return cachedUrl.ToString();
             }
             catch (Exception ex)
