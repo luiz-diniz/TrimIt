@@ -32,5 +32,15 @@ namespace ShortUrl.Repository
 
             return url.OriginalUrl;
         }
+
+        public void UpdateClicks(string shortUrl)
+        {
+            var url = _context.Urls.FirstOrDefault(x => x.ShortUrl == shortUrl);
+
+            url.Clicks += 1;
+            url.LastClick = DateTime.UtcNow;
+
+            _context.SaveChanges();
+        }
     }
 }

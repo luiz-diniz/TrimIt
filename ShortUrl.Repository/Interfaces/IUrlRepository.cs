@@ -6,5 +6,6 @@ namespace ShortUrl.Repository.Interfaces
     {
         void Create(Url url);
         string? GetUrl(string shortUrl);
+        void UpdateClicks(string shortUrl);
     }
 }

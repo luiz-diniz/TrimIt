@@ -1,4 +1,5 @@
 ﻿using Base62;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using ShortUrl.Core.Exceptions;
 using ShortUrl.Core.Extensions;
@@ -14,11 +15,13 @@ namespace ShortUrl.Core
     {
         private readonly ILogger _logger;
         private readonly IUrlRepository _urlRepository;
+        private readonly IMemoryCache _cache;
 
-        public UrlService(ILogger<UrlService> logger, IUrlRepository urlRepository)
+        public UrlService(ILogger<UrlService> logger, IUrlRepository urlRepository, IMemoryCache cache)
         {
             _logger = logger;
             _urlRepository = urlRepository;
+            _cache = cache;
         }
 
         public string Create(UrlModel url)
@@ -41,6 +44,8 @@ namespace ShortUrl.Core
 
                 _urlRepository.Create(urlEntity);
 
+                _cache.Set(urlEntity.ShortUrl, urlEntity.OriginalUrl, TimeSpan.FromMinutes(30));
+
                 return urlEntity.ShortUrl;
             }
             catch (Exception ex)
@@ -57,7 +62,21 @@ namespace ShortUrl.Core
                 if (string.IsNullOrEmpty(shortUrl))
                     throw new InvalidUrlException("Invalid URL.");
 
-                return _urlRepository.GetUrl(shortUrl);
+                var cachedUrl = _cache.Get(shortUrl);
+
+                if (cachedUrl is null)
+                {
+                    var url = _urlRepository.GetUrl(shortUrl);
+
+                    if(url is not null)
+                        _cache.Set(shortUrl, url, TimeSpan.FromMinutes(30));
+
+                    return url;
+                }
+
+                _urlRepository.UpdateClicks(shortUrl);
+
+                return cachedUrl.ToString();
             }
             catch (Exception ex)
             {
