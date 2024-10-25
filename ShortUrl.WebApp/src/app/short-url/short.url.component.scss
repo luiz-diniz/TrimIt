@@ -43,18 +43,26 @@
 
         .disabled{
             cursor: default;
+            color: #cacaca;
         }
     }
 
-    .short-url-result{
-        width: 17rem;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
+    .result{
         color: #fff;
 
-        fa-icon{
-            cursor: pointer;
+        h4{
+            margin-bottom: .5rem;
+        }
+
+        .short-url{
+            width: 17rem;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+    
+            fa-icon{
+                cursor: pointer;
+            }
         }
     }
 }

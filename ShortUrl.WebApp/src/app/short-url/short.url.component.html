@@ -9,8 +9,14 @@
     </ngx-recaptcha2>
     <button value="Submit" [disabled]="disabledSubmit" [ngClass]="!disabledSubmit ? 'enabled' : 'disabled'">submit</button>
   </form>
-  <div class="short-url-result" *ngIf="shortUrl">
-    <p>{{shortUrl}}</p>
-    <fa-icon (click)="copyShortUrl()" [icon]="faCopy"></fa-icon>
+  <div class="result" *ngIf="shortUrl">
+    <h4>Your Short URL</h4>
+    <div class="short-url">
+      <p>{{shortUrl}}</p>
+      <fa-icon (click)="copyShortUrl()" [icon]="faCopy"></fa-icon>
+    </div>
   </div>
+  <ngx-loading
+    [show]="loading!"
+  ></ngx-loading>
 </div>

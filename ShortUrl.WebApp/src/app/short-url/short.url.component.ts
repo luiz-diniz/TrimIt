@@ -7,6 +7,8 @@ import { Clipboard } from '@angular/cdk/clipboard';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faCopy } from '@fortawesome/free-solid-svg-icons';
 import { NgxCaptchaModule, ReCaptcha2Component } from 'ngx-captcha';
+import { NgxLoadingModule } from 'ngx-loading';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-short-url',
@@ -17,7 +19,8 @@ import { NgxCaptchaModule, ReCaptcha2Component } from 'ngx-captcha';
     ReactiveFormsModule,
     HttpClientModule,
     NgxCaptchaModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    NgxLoadingModule
   ],
   providers: [
     ShortUrlService
@@ -29,11 +32,13 @@ export class ShortUrlComponent {
 
   shortUrlService = inject(ShortUrlService);
   clipboard = inject(Clipboard);
+  toastr = inject(ToastrService);
 
   @ViewChild(ReCaptcha2Component) reCaptcha!: ReCaptcha2Component;
 
   form: FormGroup;
   shortUrl?: string;
+  loading?: boolean;
 
   faCopy = faCopy;
 
@@ -49,8 +54,11 @@ export class ShortUrlComponent {
   }
 
   onSubmit(){
-    const url = this.form.get("url")!.value;
-    const response = this.form.get("recaptcha")!.value;
+    const url = this.form.get('url')!.value;
+    const response = this.form.get('recaptcha')!.value;
+
+    this.shortUrl = '';
+    this.loading = true;
 
     this.shortUrlService.create({
       url: url,
@@ -60,9 +68,12 @@ export class ShortUrlComponent {
         this.shortUrl = result.url;
         this.form.reset();
         this.reCaptcha.resetCaptcha();
+        this.loading = false;
       },
-      error: result => {
-        console.error(result.error);
+      error: () => {
+        this.toastr.error('Check your input or try again later', 'Error')
+        this.reCaptcha.resetCaptcha();
+        this.loading = false;        
       }
     })
   }
