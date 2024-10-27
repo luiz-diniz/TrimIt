@@ -23,6 +23,7 @@ builder.Services.AddDbContext<ShortUrlContext>(options =>
 builder.Services.AddScoped<IUrlService, UrlService>();
 builder.Services.AddScoped<IUrlRepository, UrlRepository>();
 builder.Services.AddSingleton<IReCaptchaValidator, ReCaptchaValidator>();
+builder.Services.AddHostedService<ExpiredUrlService>();
 builder.Services.AddMemoryCache();
 
 var app = builder.Build();

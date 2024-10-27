@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using ShortUrl.Entities;
+﻿using ShortUrl.Entities;
 using ShortUrl.Repository.Interfaces;
 
 namespace ShortUrl.Repository
@@ -41,6 +40,17 @@ namespace ShortUrl.Repository
             url.LastClick = DateTime.UtcNow;
 
             _context.SaveChanges();
+        }
+
+        public void DeleteExpiredUrls()
+        {
+            var expiredUrls = _context.Urls.Where(x => x.ExpiryDate < DateTime.UtcNow).ToList();
+
+            if(expiredUrls is not null && expiredUrls.Count > 0)
+            {
+                _context.RemoveRange(expiredUrls);
+                _context.SaveChanges();
+            }           
         }
     }
 }
