@@ -65,7 +65,7 @@ export class ShortUrlComponent {
       response: response
     }).subscribe({
       next: result => {
-        this.shortUrl = result.url;
+        this.shortUrl = `http://trim-it.great-site.net/${result.url}`;
         this.form.reset();
         this.reCaptcha.resetCaptcha();
         this.loading = false;
