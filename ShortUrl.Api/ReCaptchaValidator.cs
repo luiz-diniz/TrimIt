@@ -40,7 +40,7 @@ namespace ShortUrl.Api
                 if (response.IsSuccessStatusCode)
                 {
                     var json = await response.Content.ReadAsStringAsync();
-                    _logger.LogDebug("CAPTCHA JSON Reponse: {Json}", json);
+                    _logger.LogInformation("CAPTCHA JSON Reponse: {Json}", json);
 
                     var result = await response.Content.ReadFromJsonAsync<ReCaptchaResult>();
 
