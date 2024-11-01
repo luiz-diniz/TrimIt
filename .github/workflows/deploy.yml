@@ -45,4 +45,4 @@ jobs:
               -e CONNECTION_STRING=${{ secrets.CONNECTION_STRING }} \
               -e RECAPTCHA_API=${{ secrets.RECAPTCHA_API }} \ 
               -e RECAPTCHA_SECRET=${{ secrets.RECAPTCHA_SECRET }} \
-              "${{ secrets.DOCKERHUB_USERNAME }}/shorturl:latest"
+              "luizdiniz/shorturl:latest"
