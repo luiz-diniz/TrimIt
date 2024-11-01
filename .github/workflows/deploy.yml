@@ -30,8 +30,14 @@ jobs:
             echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
             chmod 600 ~/.ssh/id_rsa
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/shorturl:latest
-            docker stop shorturl-container || true
-            docker rm shorturl-container || true
+
+            if [ "$(docker ps -q -f name=shorturl-container)" ]; then
+              docker stop shorturl-container
+            fi
+
+            if [ "$(docker ps -aq -f name=shorturl-container)" ]; then
+              docker rm shorturl-container
+            fi
 
             docker run -d -p 80:80 --name shorturl-container \ 
             -e CONNECTION_STRING="${{ secrets.CONNECTION_STRING }}" \ 
