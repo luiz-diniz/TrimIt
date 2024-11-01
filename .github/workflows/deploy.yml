@@ -42,7 +42,7 @@ jobs:
             fi
 
             docker run -d -p 80:80 --name shorturl-container \
-              -e CONNECTION_STRING=${{ secrets.CONNECTION_STRING }} \
-              -e RECAPTCHA_API=${{ secrets.RECAPTCHA_API }} \ 
-              -e RECAPTCHA_SECRET=${{ secrets.RECAPTCHA_SECRET }} \
-              "luizdiniz/shorturl:latest"
+              -e CONNECTION_STRING="test" \
+              -e RECAPTCHA_API="test" \ 
+              -e RECAPTCHA_SECRET="test" \
+              "${{ secrets.DOCKERHUB_USERNAME }}/shorturl:latest"
