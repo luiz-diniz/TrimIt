@@ -10,10 +10,10 @@ services:
     ports:
       - "80:80"
 
-  # postgres:
-  #   image: postgres
-  #   container_name: postgres-container
-  #   environment:
-  #     POSTGRES_PASSWORD: admin
-  #   ports:
-  #     - "5432:5432"
+  postgres:
+    image: postgres
+    container_name: postgres-container
+    environment:
+      POSTGRES_PASSWORD: admin
+    ports:
+      - "5432:5432"
