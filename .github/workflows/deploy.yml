@@ -29,6 +29,8 @@ jobs:
           script: echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
             chmod 600 ~/.ssh/id_rsa
 
+            echo ${DOCKERHUB_USERNAME}/shorturl:latest
+
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/shorturl:latest
             docker stop shorturl-container || true
             docker rm shorturl-container || true
