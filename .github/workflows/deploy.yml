@@ -28,7 +28,9 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
+
             chmod 600 ~/.ssh/id_rsa
+
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/shorturl:latest
 
             if [ "$(docker ps -q -f name=shorturl-container)" ]; then
