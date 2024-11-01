@@ -1,0 +1,32 @@
+name: API Deploy
+on:
+  push:
+    branches: ["master"]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build docker image
+        working-directory: ../../
+        run: docker build . -t luizdiniz/shorturl:latest
+
+      - name: Log into Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Push the images to Docker Hub
+        run: docker push luizdiniz/shorturl:latest
+
+      - name: Pull the image to VM
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          script: docker pull ${{ secrets.DOCKERHUB_USERNAME }}/shorturl:latest
+            docker stop shorturl-container || true
+            docker rm shorturl-container || true
+            docker run -d -p 80:80 --name shorturl-container ${{ secrets.DOCKERHUB_USERNAME }}/shorturl:latest
