@@ -2,18 +2,18 @@ version: '3.8'
 
 services:
   api:
-    image: trimit-api:latest
-    container_name: trimit-api-container
+    image: shorturl:latest
+    container_name: shorturl-container
     environment:
-        - ASPNETCORE_ENVIRONMENT=docker
-        - ASPNETCORE_URLS=http://+:80
+      - ASPNETCORE_ENVIRONMENT=docker
+      - ASPNETCORE_URLS=http://+:80
     ports:
       - "80:80"
 
-  postgres:
-    image: postgres
-    container_name: postgres-container
-    environment:
-      POSTGRES_PASSWORD: admin
-    ports:
-      - "5432:5432"
+  # postgres:
+  #   image: postgres
+  #   container_name: postgres-container
+  #   environment:
+  #     POSTGRES_PASSWORD: admin
+  #   ports:
+  #     - "5432:5432"
