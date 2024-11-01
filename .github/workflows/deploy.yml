@@ -41,4 +41,4 @@ jobs:
               docker rm shorturl-container
             fi
 
-            docker run -d -p 80:80 --name shorturl-container -e CONNECTION_STRING="${{ secrets.CONNECTION_STRING }}" -e RECAPTCHA_API="${{ secrets.RECAPTCHA_API }}" -e RECAPTCHA_SECRET="${{ secrets.RECAPTCHA_SECRET }}" "${{ secrets.DOCKERHUB_USERNAME }}/shorturl:latest"
+            docker run -d -p 80:80 --name shorturl-container -e ConnectionStrings__Default="${{ secrets.CONNECTION_STRING }}" -e ReCaptcha__Api="${{ secrets.RECAPTCHA_API }}" -e ReCaptcha__Secret="${{ secrets.RECAPTCHA_SECRET }}" "${{ secrets.DOCKERHUB_USERNAME }}/shorturl:latest"
