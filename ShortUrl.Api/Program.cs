@@ -13,7 +13,11 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHttpClient();
 builder.Logging.ClearProviders();
-builder.Logging.AddConsole();
+
+builder.Logging.AddSimpleConsole(x =>
+{
+    x.TimestampFormat = "[HH:mm:ss] ";
+});
 
 builder.Configuration.AddEnvironmentVariables();
 
