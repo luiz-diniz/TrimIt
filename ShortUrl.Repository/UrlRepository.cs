@@ -42,15 +42,19 @@ namespace ShortUrl.Repository
             _context.SaveChanges();
         }
 
-        public void DeleteExpiredUrls()
+        public int DeleteExpiredUrls()
         {
             var expiredUrls = _context.Urls.Where(x => x.ExpiryDate < DateTime.UtcNow).ToList();
+
+            var expiredUrlsCount = expiredUrls.Count();
 
             if(expiredUrls is not null && expiredUrls.Count > 0)
             {
                 _context.RemoveRange(expiredUrls);
                 _context.SaveChanges();
-            }           
+            }   
+            
+            return expiredUrlsCount;
         }
     }
 }
