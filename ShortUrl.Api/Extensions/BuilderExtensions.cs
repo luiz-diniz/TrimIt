@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AspNetCoreRateLimit;
+using Microsoft.EntityFrameworkCore;
 using ShortUrl.Api.Interfaces;
 using ShortUrl.Core;
 using ShortUrl.Core.Interfaces;
@@ -13,6 +14,7 @@ namespace ShortUrl.Api.Extensions
         {
             AddApplicationServices(builder.Services);
             AddApplicationDatabase(builder);
+            AddApplicationRateLimiting(builder);
         }
 
         private static void AddApplicationServices(IServiceCollection services)
@@ -23,7 +25,7 @@ namespace ShortUrl.Api.Extensions
             services.AddHostedService<ExpiredUrlService>();
         }
 
-        private static void AddApplicationDatabase(this WebApplicationBuilder builder)
+        private static void AddApplicationDatabase(WebApplicationBuilder builder)
         {
             var connectionString = builder.Configuration.GetConnectionString("Default");
 
@@ -31,6 +33,18 @@ namespace ShortUrl.Api.Extensions
             {
                 options.UseNpgsql(connectionString);
             });
+        }
+
+        private static void AddApplicationRateLimiting(WebApplicationBuilder builder)
+        {
+            builder.Services.Configure<IpRateLimitOptions>(
+                builder.Configuration.GetSection("IpRateLimiting"));
+
+            builder.Services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
+            builder.Services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
+            builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
+            builder.Services.AddSingleton<IProcessingStrategy, AsyncKeyLockProcessingStrategy>();
+            builder.Services.AddInMemoryRateLimiting();
         }
     }
 }

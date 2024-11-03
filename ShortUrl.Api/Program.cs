@@ -1,3 +1,4 @@
+using AspNetCoreRateLimit;
 using ShortUrl.Api.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -38,7 +39,6 @@ app.UseCors(p =>
 });
 
 app.UseAuthorization();
-
 app.MapControllers();
-
+app.UseIpRateLimiting();
 app.Run();

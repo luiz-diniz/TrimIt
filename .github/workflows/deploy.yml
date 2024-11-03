@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Build docker image
+      - name: Build Docker image
         working-directory: ./
         run: docker build . -t luizdiniz/shorturl:latest
 
@@ -20,7 +20,7 @@ jobs:
       - name: Push the images to Docker Hub
         run: docker push luizdiniz/shorturl:latest
 
-      - name: Pull the image to VM
+      - name: Pull the image to instance
         uses: appleboy/ssh-action@v1.0.0
         with:
           host: ${{ secrets.SSH_HOST }}
