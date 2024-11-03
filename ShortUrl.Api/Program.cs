@@ -1,10 +1,4 @@
-using Microsoft.EntityFrameworkCore;
-using ShortUrl.Api;
-using ShortUrl.Api.Interfaces;
-using ShortUrl.Core;
-using ShortUrl.Core.Interfaces;
-using ShortUrl.Repository;
-using ShortUrl.Repository.Interfaces;
+using ShortUrl.Api.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,8 +6,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHttpClient();
-builder.Logging.ClearProviders();
+builder.Services.AddMemoryCache();
 
+builder.Logging.ClearProviders();
 builder.Logging.AddSimpleConsole(x =>
 {
     x.TimestampFormat = "[HH:mm:ss] ";
@@ -21,19 +16,7 @@ builder.Logging.AddSimpleConsole(x =>
 
 builder.Configuration.AddEnvironmentVariables();
 
-var connectionString = builder.Configuration.GetConnectionString("Default");
-
-builder.Services.AddDbContext<ShortUrlContext>(options =>
-{
-    options.UseNpgsql(connectionString);
-});
-
-builder.Services.AddScoped<IUrlService, UrlService>();
-builder.Services.AddScoped<IUrlRepository, UrlRepository>();
-builder.Services.AddSingleton<IReCaptchaValidator, ReCaptchaValidator>();
-builder.Services.AddHostedService<ExpiredUrlService>();
-builder.Services.AddMemoryCache();
-
+builder.InitializeApplicationDependencies();
 
 var app = builder.Build();
 
