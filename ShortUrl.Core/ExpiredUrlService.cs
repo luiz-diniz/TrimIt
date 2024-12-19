@@ -19,14 +19,14 @@ namespace ShortUrl.Core
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            while(!stoppingToken.IsCancellationRequested)
+            while (!stoppingToken.IsCancellationRequested)
             {
-                await DeleteExpiredUrls();
+                DeleteExpiredUrls();
                 await Task.Delay(_interval, stoppingToken);
             }
         }
 
-        private async Task DeleteExpiredUrls()
+        private void DeleteExpiredUrls()
         {
             using var scope = _serviceScopeFactory.CreateScope();
             var urlRepository = scope.ServiceProvider.GetRequiredService<IUrlRepository>();
