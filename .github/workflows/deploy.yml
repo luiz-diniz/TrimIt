@@ -27,9 +27,11 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
-
-            chmod 600 ~/.ssh/id_rsa
+            mkdir -p ~/.ssh
+            
+            echo "${{ secrets.SSH_KEY }}" | tr -d '\r' > ~/.ssh/id_rsa
+            chmod 600 ~/.ssh/id_rsa    
+            ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/shorturl:latest
 
