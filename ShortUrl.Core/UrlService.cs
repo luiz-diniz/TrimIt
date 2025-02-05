@@ -1,10 +1,10 @@
 ﻿using Base62;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
+using ShortUrl.Core.DTO;
 using ShortUrl.Core.Exceptions;
 using ShortUrl.Core.Extensions;
 using ShortUrl.Core.Interfaces;
-using ShortUrl.Core.Models;
 using ShortUrl.Repository.Interfaces;
 using System.Security.Cryptography;
 using System.Text;
@@ -25,7 +25,7 @@ namespace ShortUrl.Core
             _cache = cache;
         }
 
-        public string Create(UrlModel url)
+        public string Create(UrlDTO url)
         {
             try
             {
@@ -126,7 +126,7 @@ namespace ShortUrl.Core
             return md5.ComputeHash(urlBytes).ToBase62().Substring(0, 8);         
         }
 
-        private void ValidateUrl(UrlModel url)
+        private void ValidateUrl(UrlDTO url)
         {
             if(url is null)
                 throw new InvalidUrlException("Invalid URL model object.");

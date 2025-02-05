@@ -1,13 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ShortUrl.Core.Models
+namespace ShortUrl.Core.DTO
 {
-    public class UrlModel
+    public class UrlDTO
     {
         [Required]
+        [MinLength(2)]
         public string Url { get; set; }
         [Required]
-        public string Response { get; set; }
+        public string CaptchaResponse { get; set; }
         public DateTime? ExpiryDate { get; set; }
     }
 }

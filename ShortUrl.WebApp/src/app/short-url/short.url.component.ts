@@ -62,7 +62,7 @@ export class ShortUrlComponent {
 
     this.shortUrlService.create({
       url: url,
-      response: response
+      captchaResponse: response
     }).subscribe({
       next: result => {
         this.shortUrl = `http://trim-it.great-site.net/${result.url}`;

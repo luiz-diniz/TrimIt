@@ -7,10 +7,10 @@ import { environment } from "../../environments/environment";
 export class ShortUrlService{
     private _httpClient = inject(HttpClient);
 
-    create(request: {url: string, response: string}) : Observable<any>{
+    create(request: {url: string, captchaResponse: string}) : Observable<any>{
         return this._httpClient.post<any>(environment.apiUrl, {
             url: request.url,
-            response: request.response
+            captchaResponse: request.captchaResponse
         });
     }
 
