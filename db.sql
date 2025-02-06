@@ -1,10 +1,17 @@
-create database ShortUrl;
+CREATE DATABASE ShortUrl;
 
-create table urls(
-	url_id integer GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-	original_url text not null,
-	short_url text not null,
-	clicks integer default 0,
-	last_click timestamp,
-	expiry_date date not null
-)
+CREATE TABLE IF NOT EXISTS urls (
+    id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    original_url TEXT NOT NULL,
+    short_url TEXT NOT NULL,
+    clicks INTEGER DEFAULT 0,
+    last_click TIMESTAMP,
+    expiry_date DATE NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS users (
+    id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    username TEXT NOT NULL UNIQUE,
+    email TEXT NOT NULL UNIQUE,
+    password TEXT NOT NULL
+);

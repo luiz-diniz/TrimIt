@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using ShortUrl.Api.Interfaces;
 using ShortUrl.Core;
 using ShortUrl.Core.Interfaces;
+using ShortUrl.Core.Mappings;
 using ShortUrl.Repository;
 using ShortUrl.Repository.Interfaces;
 
@@ -14,22 +15,28 @@ namespace ShortUrl.Api.Extensions
         {
             AddApplicationServices(builder.Services);
             AddApplicationDatabase(builder);
-            AddApplicationRateLimiting(builder);
+            AddApplicationRateLimiting(builder);            
         }
 
         private static void AddApplicationServices(IServiceCollection services)
         {
             services.AddScoped<IUrlService, UrlService>();
             services.AddScoped<IUrlRepository, UrlRepository>();
+
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IUserRepository, UserRepository>();
+
             services.AddSingleton<IReCaptchaValidator, ReCaptchaValidator>();
             services.AddHostedService<ExpiredUrlService>();
+
+            services.AddAutoMapper(typeof(MappingProfile));
         }
 
         private static void AddApplicationDatabase(WebApplicationBuilder builder)
         {
             var connectionString = builder.Configuration.GetConnectionString("Default");
 
-            builder.Services.AddDbContext<ShortUrlContext>(options =>
+            builder.Services.AddDbContext<AppDbContext>(options =>
             {
                 options.UseNpgsql(connectionString);
             });
