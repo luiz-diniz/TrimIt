@@ -5,9 +5,9 @@ namespace ShortUrl.Repository
 {
     public class UrlRepository : IUrlRepository
     {
-        private readonly ShortUrlContext _context;
+        private readonly AppDbContext _context;
 
-        public UrlRepository(ShortUrlContext context)
+        public UrlRepository(AppDbContext context)
         {
             _context = context;
         }

@@ -3,11 +3,13 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using ShortUrl.Core.DTO;
 using ShortUrl.Core.Exceptions;
-using ShortUrl.Core.Extensions;
+using ShortUrl.Core.Mappings;
 using ShortUrl.Core.Interfaces;
 using ShortUrl.Repository.Interfaces;
 using System.Security.Cryptography;
 using System.Text;
+using AutoMapper;
+using ShortUrl.Entities;
 
 namespace ShortUrl.Core
 {
@@ -16,13 +18,15 @@ namespace ShortUrl.Core
         private readonly ILogger _logger;
         private readonly IUrlRepository _urlRepository;
         private readonly IMemoryCache _cache;
+        private readonly IMapper _mapper;
         private readonly TimeSpan _expirationCacheTime = TimeSpan.FromMinutes(30);
 
-        public UrlService(ILogger<UrlService> logger, IUrlRepository urlRepository, IMemoryCache cache)
+        public UrlService(ILogger<UrlService> logger, IUrlRepository urlRepository, IMapper mapper, IMemoryCache cache)
         {
             _logger = logger;
             _urlRepository = urlRepository;
             _cache = cache;
+            _mapper = mapper;
         }
 
         public string Create(UrlDTO url)
@@ -31,7 +35,7 @@ namespace ShortUrl.Core
             {
                 ValidateUrl(url);
 
-                var urlEntity = url.ToUrlEntity();
+                var urlEntity = _mapper.Map<Url>(url);
 
                 while (string.IsNullOrWhiteSpace(urlEntity.ShortUrl))
                 {
