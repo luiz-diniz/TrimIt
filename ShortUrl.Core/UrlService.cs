@@ -1,15 +1,14 @@
-﻿using Base62;
+﻿using AutoMapper;
+using Base62;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using ShortUrl.Core.DTO;
 using ShortUrl.Core.Exceptions;
-using ShortUrl.Core.Mappings;
 using ShortUrl.Core.Interfaces;
+using ShortUrl.Entities;
 using ShortUrl.Repository.Interfaces;
 using System.Security.Cryptography;
 using System.Text;
-using AutoMapper;
-using ShortUrl.Entities;
 
 namespace ShortUrl.Core
 {
@@ -103,7 +102,7 @@ namespace ShortUrl.Core
 
                     _logger.LogInformation("Short URL '{shortUrl}' not found in the database.", shortUrl);
 
-                    return url;
+                    return url!;
                 }
 
                 _logger.LogInformation("Short URL '{shortUrl}' found in the cache.", shortUrl);
@@ -112,7 +111,7 @@ namespace ShortUrl.Core
 
                 _logger.LogInformation("Short URL '{shortUrl}' clicks updated.", shortUrl);
 
-                return cachedUrl.ToString();
+                return cachedUrl.ToString()!;
             }
             catch (Exception ex)
             {

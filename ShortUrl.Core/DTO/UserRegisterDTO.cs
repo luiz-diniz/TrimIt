@@ -5,9 +5,9 @@ namespace ShortUrl.Core.DTO
     public class UserRegisterDTO
     {
         [Required]
-        [MaxLength(30)]
+        [MaxLength(50)]
         [MinLength(3)]
-        public string Username { get; set; }
+        public string Name { get; set; }
 
         [Required]
         [EmailAddress]
