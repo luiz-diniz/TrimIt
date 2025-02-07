@@ -1,5 +1,8 @@
 using AspNetCoreRateLimit;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.IdentityModel.Tokens;
 using ShortUrl.Api.Extensions;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +21,28 @@ builder.Logging.AddSimpleConsole(x =>
 builder.Configuration.AddEnvironmentVariables();
 
 builder.InitializeApplicationDependencies();
+
+builder.Services.AddAuthentication("Bearer")
+.AddJwtBearer(opts =>
+{
+    opts.TokenValidationParameters = new()
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = builder.Configuration.GetValue<string>("Authentication:Issuer"),
+        ValidAudience = builder.Configuration.GetValue<string>("Authentication:Audience"),
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(
+            builder.Configuration.GetValue<string>("Authentication:SecretKey")))
+    };
+});
+
+//builder.Services.AddAuthorization(opts =>
+//{
+//    opts.FallbackPolicy = new AuthorizationPolicyBuilder()
+//        .RequireAuthenticatedUser()
+//        .Build();
+//});
 
 var app = builder.Build();
 
@@ -38,7 +63,9 @@ app.UseCors(p =>
     p.SetIsOriginAllowed(o => true);
 });
 
+app.UseAuthentication();
 app.UseAuthorization();
+
 app.MapControllers();
 app.UseIpRateLimiting();
 app.Run();

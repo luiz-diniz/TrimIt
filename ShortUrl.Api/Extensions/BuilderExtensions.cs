@@ -28,6 +28,8 @@ namespace ShortUrl.Api.Extensions
 
             services.AddSingleton<IReCaptchaValidator, ReCaptchaValidator>();
             services.AddSingleton<IPasswordService, PasswordService>();
+            services.AddScoped<IAuthenticationService, AuthenticationService>();
+            services.AddSingleton<ITokenService, TokenService>();
 
             services.AddHostedService<ExpiredUrlService>();
 

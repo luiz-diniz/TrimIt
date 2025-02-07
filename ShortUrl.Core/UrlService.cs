@@ -28,19 +28,19 @@ namespace ShortUrl.Core
             _mapper = mapper;
         }
 
-        public string Create(UrlDTO url)
+        public string Create(UrlDTO urlDto)
         {
             try
             {
-                ValidateUrl(url);
+                ValidateUrl(urlDto);
 
-                var urlEntity = _mapper.Map<Url>(url);
+                var urlEntity = _mapper.Map<UrlEntity>(urlDto);
 
                 while (string.IsNullOrWhiteSpace(urlEntity.ShortUrl))
                 {
-                    var shortUrl = CreateShortUrl(url.Url);
+                    var shortUrl = CreateShortUrl(urlDto.Url);
 
-                    _logger.LogInformation("Short URL created '{shortUrl}' for URL '{url}'.", shortUrl, url.Url);
+                    _logger.LogInformation("Short URL created '{shortUrl}' for URL '{url}'.", shortUrl, urlDto.Url);
 
                     if (_urlRepository.GetUrl(shortUrl) is not null)
                     {

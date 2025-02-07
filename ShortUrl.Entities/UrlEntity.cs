@@ -1,6 +1,6 @@
 ﻿namespace ShortUrl.Entities
 {
-    public class Url
+    public class UrlEntity
     {
         public int Id { get; set; }
         public string OriginalUrl { get; set; }
@@ -10,6 +10,6 @@
         public DateTime ExpiryDate { get; set; }
 
         public int? IdUser { get; set; }
-        public User User { get; set; }
+        public UserEntity User { get; set; }
     }
 }

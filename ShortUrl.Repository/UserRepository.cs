@@ -12,10 +12,14 @@ namespace ShortUrl.Repository
             _context = context;
         }
 
-        public void Create(User user)
+        public void Create(UserEntity user)
         {
             _context.Add(user);
             _context.SaveChanges();
+        }
+        public UserEntity? GetByEmail(string email)
+        {
+            return _context.User.FirstOrDefault(u => u.Email == email);
         }
     }
 }

@@ -5,8 +5,8 @@ namespace ShortUrl.Repository
 {
     public class AppDbContext : DbContext
     {
-        public DbSet<Url> Urls { get; set; }
-        public DbSet<User> User { get; set; }
+        public DbSet<UrlEntity> Urls { get; set; }
+        public DbSet<UserEntity> User { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {            
@@ -14,9 +14,9 @@ namespace ShortUrl.Repository
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Url>().ToTable("urls");
+            modelBuilder.Entity<UrlEntity>().ToTable("urls");
 
-            modelBuilder.Entity<Url>(entity =>
+            modelBuilder.Entity<UrlEntity>(entity =>
             {
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.Id).HasColumnName("id");
@@ -33,15 +33,16 @@ namespace ShortUrl.Repository
                       .OnDelete(DeleteBehavior.SetNull);
             });
 
-            modelBuilder.Entity<User>().ToTable("users");
+            modelBuilder.Entity<UserEntity>().ToTable("users");
 
-            modelBuilder.Entity<User>(entity =>
+            modelBuilder.Entity<UserEntity>(entity =>
             {
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.Id).HasColumnName("id");
                 entity.Property(e => e.Name).HasColumnName("name");
                 entity.Property(e => e.Email).HasColumnName("email");
                 entity.Property(e => e.Password).HasColumnName("password");
+                entity.Property(e => e.Role).HasColumnName("role");
             });
         }
     }

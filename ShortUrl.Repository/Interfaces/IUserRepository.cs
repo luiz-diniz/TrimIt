@@ -4,6 +4,7 @@ namespace ShortUrl.Repository.Interfaces
 {
     public interface IUserRepository
     {
-        void Create(User user);
+        void Create(UserEntity user);
+        UserEntity? GetByEmail(string email);
     }
 }

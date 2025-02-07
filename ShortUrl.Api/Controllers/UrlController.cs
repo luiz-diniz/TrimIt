@@ -69,7 +69,7 @@ public class UrlController : ApiControllerBase
         }
         catch (Exception ex)
         {
-            return ReturnError(HttpStatusCode.InternalServerError, _logger, ex);
+            return ReturnError(HttpStatusCode.InternalServerError, _logger, ex, "Error getting URL.");
         }
     }
 }

@@ -11,7 +11,7 @@ namespace ShortUrl.Repository
         {
             _context = context;
         }
-        public void Create(Url url)
+        public void Create(UrlEntity url)
         {
             _context.Add(url);
             _context.SaveChanges();         
@@ -36,10 +36,13 @@ namespace ShortUrl.Repository
         {
             var url = _context.Urls.FirstOrDefault(x => x.ShortUrl == shortUrl);
 
-            url.Clicks += 1;
-            url.LastClick = DateTime.UtcNow;
+            if(url is not null)
+            {
+                url.Clicks += 1;
+                url.LastClick = DateTime.UtcNow;
 
-            _context.SaveChanges();
+                _context.SaveChanges();
+            }            
         }
 
         public int DeleteExpiredUrls()

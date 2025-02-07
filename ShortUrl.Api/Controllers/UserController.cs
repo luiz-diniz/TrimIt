@@ -19,17 +19,17 @@ public class UserController : ApiControllerBase
     }
 
     [HttpPost]
-    public IActionResult Create([FromBody] UserRegisterDTO user)
+    public IActionResult Create([FromBody] UserRegisterDTO userRegisterDto)
     {
 		try
 		{
-            _userService.Create(user);
+            _userService.Create(userRegisterDto);
 
             return Ok();
         }
 		catch (Exception ex)
 		{
-            return ReturnError(HttpStatusCode.InternalServerError, _logger, ex);
+            return ReturnError(HttpStatusCode.InternalServerError, _logger, ex, "Error creating user.");
         }
     }
 }

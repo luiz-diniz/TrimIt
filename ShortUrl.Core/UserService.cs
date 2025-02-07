@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.Logging;
 using ShortUrl.Core.DTO;
+using ShortUrl.Core.Exceptions;
 using ShortUrl.Core.Interfaces;
+using ShortUrl.Core.Models;
 using ShortUrl.Entities;
 using ShortUrl.Repository.Interfaces;
 
@@ -22,19 +24,37 @@ namespace ShortUrl.Core
             _mapper = mapper;
         }
 
-        public void Create(UserRegisterDTO userRegister)
+        public void Create(UserRegisterDTO userRegisterDto)
         {
             try
             {
-                var user = _mapper.Map<User>(userRegister);
+                var userEntity = _mapper.Map<UserEntity>(userRegisterDto);
 
-                user.Password = _passwordService.HashInputPassword(user.Password);
+                userEntity.Password = _passwordService.HashInputPassword(userEntity.Password);
 
-                _userRepository.Create(user);
+                _userRepository.Create(userEntity);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error creating user.");
+                _logger.LogError(ex, ex.Message);
+                throw;
+            }
+        }
+
+        public UserCredentialsModel GetCredentialsByEmail(string email)
+        {
+            try
+            {
+                var userEntity = _userRepository.GetByEmail(email);
+
+                if (userEntity is null)
+                    throw new UserNotFound($"User with Email {email} was not found.");
+
+                return _mapper.Map<UserCredentialsModel>(userEntity);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
                 throw;
             }
         }
