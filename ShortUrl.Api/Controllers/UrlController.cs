@@ -35,7 +35,10 @@ public class UrlController : ApiControllerBase
 
             var shortUrl = _urlService.Create(url);
 
-            return ReturnOk(shortUrl);
+            return StatusCode((int)HttpStatusCode.OK, new
+            {
+                shortUrl
+            });
         }
         catch (InvalidUrlException ex)
         {
@@ -55,7 +58,10 @@ public class UrlController : ApiControllerBase
         {
             var originalUrl = _urlService.GetUrl(shortUrl);
 
-            return ReturnOk(originalUrl);
+            return StatusCode((int)HttpStatusCode.OK, new
+            {
+                url = originalUrl
+            });
         }
         catch (InvalidUrlException ex)
         {
