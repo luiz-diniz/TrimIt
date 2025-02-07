@@ -27,6 +27,8 @@ namespace ShortUrl.Api.Extensions
             services.AddScoped<IUserRepository, UserRepository>();
 
             services.AddSingleton<IReCaptchaValidator, ReCaptchaValidator>();
+            services.AddSingleton<IPasswordService, PasswordService>();
+
             services.AddHostedService<ExpiredUrlService>();
 
             services.AddAutoMapper(typeof(MappingProfile));

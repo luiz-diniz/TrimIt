@@ -11,12 +11,14 @@ namespace ShortUrl.Core
     {
         private readonly ILogger<UserService> _logger;
         private readonly IUserRepository _userRepository;
+        private readonly IPasswordService _passwordService;
         private readonly IMapper _mapper;
 
-        public UserService(ILogger<UserService> logger, IUserRepository userRepository, IMapper mapper)
+        public UserService(ILogger<UserService> logger, IUserRepository userRepository, IPasswordService passwordService, IMapper mapper)
         {
             _logger = logger;
             _userRepository = userRepository;
+            _passwordService = passwordService;
             _mapper = mapper;
         }
 
@@ -25,6 +27,8 @@ namespace ShortUrl.Core
             try
             {
                 var user = _mapper.Map<User>(userRegister);
+
+                user.Password = _passwordService.HashInputPassword(user.Password);
 
                 _userRepository.Create(user);
             }
