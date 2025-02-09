@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ShortUrl.Api.Interfaces;
 using ShortUrl.Core.DTO;
 using ShortUrl.Core.Exceptions;
@@ -35,7 +36,7 @@ public class UrlController : ApiControllerBase
 
             var shortUrl = _urlService.Create(url);
 
-            return StatusCode((int)HttpStatusCode.OK, new
+            return Ok(new
             {
                 shortUrl
             });
@@ -58,7 +59,7 @@ public class UrlController : ApiControllerBase
         {
             var originalUrl = _urlService.GetUrl(shortUrl);
 
-            return StatusCode((int)HttpStatusCode.OK, new
+            return Ok(new
             {
                 url = originalUrl
             });
