@@ -32,6 +32,7 @@ namespace ShortUrl.Core
                 List<Claim> claims = new()
             {
                 new Claim("id", userCredentials.Id.ToString()),
+                new Claim("name", userCredentials.Name),
                 new Claim("role", userCredentials.Role.ToString()),
             };
 

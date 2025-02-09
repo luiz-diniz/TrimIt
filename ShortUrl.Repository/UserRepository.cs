@@ -21,5 +21,10 @@ namespace ShortUrl.Repository
         {
             return _context.User.FirstOrDefault(u => u.Email == email);
         }
+
+        public UserEntity? GetById(int id)
+        {
+            return _context.User.FirstOrDefault(u => u.Id == id);
+        }
     }
 }

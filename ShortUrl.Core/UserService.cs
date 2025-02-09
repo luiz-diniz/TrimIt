@@ -58,5 +58,23 @@ namespace ShortUrl.Core
                 throw;
             }
         }
+
+        public UserProfileDto GetProfileById(int id)
+        {
+            try
+            {
+                var user = _userRepository.GetById(id);
+
+                if(user is null)
+                    throw new UserNotFound($"User with Id {id} was not found.");
+
+                return _mapper.Map<UserProfileDto>(user);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                throw;
+            }
+        }
     }
 }

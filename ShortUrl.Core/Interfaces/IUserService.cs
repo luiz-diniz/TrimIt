@@ -8,5 +8,6 @@ namespace ShortUrl.Core.Interfaces
     {
         void Create(UserRegisterDTO user);
         UserCredentialsModel GetCredentialsByEmail(string email);
+        UserProfileDto GetProfileById(int id);
     }
 }

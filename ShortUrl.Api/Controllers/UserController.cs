@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ShortUrl.Core.DTO;
 using ShortUrl.Core.Interfaces;
 using System.Net;
@@ -21,15 +22,31 @@ public class UserController : ApiControllerBase
     [HttpPost]
     public IActionResult Create([FromBody] UserRegisterDTO userRegisterDto)
     {
-		try
-		{
+        try
+        {
             _userService.Create(userRegisterDto);
 
             return Ok();
         }
-		catch (Exception ex)
-		{
+        catch (Exception ex)
+        {
             return ReturnError(HttpStatusCode.InternalServerError, _logger, ex, "Error creating user.");
+        }
+    }
+
+    [HttpGet("{id}")]
+    [Authorize]
+    public IActionResult Get(int id)
+    {
+        try
+        {
+            var userProfile = _userService.GetProfileById(id);
+
+            return Ok(userProfile);
+        }
+        catch (Exception ex)
+        {
+            return ReturnError(HttpStatusCode.InternalServerError, _logger, ex, "Error getting the user profile.");
         }
     }
 }

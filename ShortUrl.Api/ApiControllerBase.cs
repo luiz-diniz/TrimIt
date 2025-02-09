@@ -5,24 +5,8 @@ namespace ShortUrl.Api
 {
     public class ApiControllerBase : ControllerBase
     {
-        protected IActionResult ReturnOk(string urlContent)
-        {
-            return StatusCode((int)HttpStatusCode.OK, new { 
-                url = urlContent
-            });
-        }
-
         protected IActionResult ReturnError(HttpStatusCode status, string message)
         {
-            return StatusCode((int)status, new
-            {
-                error = message
-            });
-        }
-
-        protected IActionResult ReturnError(HttpStatusCode status, ILogger logger, Exception ex, string message)
-        {
-            logger.LogError(ex, ex.Message);
             return StatusCode((int)status, new
             {
                 error = message
@@ -35,6 +19,15 @@ namespace ShortUrl.Api
             return StatusCode((int)status, new
             {
                 error = ex.Message
+            });
+        }
+
+        protected IActionResult ReturnError(HttpStatusCode status, ILogger logger, Exception ex, string message)
+        {
+            logger.LogError(ex, ex.Message);
+            return StatusCode((int)status, new
+            {
+                error = message
             });
         }
     }
