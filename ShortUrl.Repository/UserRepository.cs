@@ -1,4 +1,5 @@
-﻿using ShortUrl.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using ShortUrl.Entities;
 using ShortUrl.Repository.Interfaces;
 
 namespace ShortUrl.Repository
@@ -24,7 +25,7 @@ namespace ShortUrl.Repository
 
         public UserEntity? GetById(int id)
         {
-            return _context.User.FirstOrDefault(u => u.Id == id);
+            return _context.User.Include(x => x.Urls).FirstOrDefault(u => u.Id == id);
         }
     }
 }
