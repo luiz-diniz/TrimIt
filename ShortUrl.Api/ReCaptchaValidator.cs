@@ -1,4 +1,5 @@
-﻿using ShortUrl.Api.Interfaces;
+﻿using Microsoft.Extensions.Configuration;
+using ShortUrl.Api.Interfaces;
 
 namespace ShortUrl.Api
 {
@@ -6,8 +7,10 @@ namespace ShortUrl.Api
     {
         private readonly ILogger<ReCaptchaValidator> _logger;
         private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IConfiguration _configuration;
         private readonly string _api;
         private readonly string _secret;
+        private readonly bool _validateCaptcha;
 
         private record ReCaptchaResult(bool success);
 
@@ -15,22 +18,20 @@ namespace ShortUrl.Api
         {
             _logger = logger;
             _httpClientFactory = httpClientFactory;
+            _configuration = configuration;
 
-            _api = configuration.GetValue("ReCaptcha:Api", string.Empty);
-
-            if (_api is null)
-                throw new ArgumentNullException("Invalid API URL on the AppSettings.json");
-
-            _secret = configuration.GetValue("ReCaptcha:Secret", string.Empty);
-
-            if (_secret is null)
-                throw new ArgumentNullException("Invalid API Secret on the AppSettings.json");
+            _api = GetAppSettingsValue("ReCaptcha:Api", string.Empty);
+            _secret = GetAppSettingsValue("ReCaptcha:Secret", string.Empty);
+            _validateCaptcha = GetAppSettingsValue("ReCaptcha:Validate", true);
         }
 
         public async Task<bool> ValidateReCaptcha(string captchaResponse)
         {
             try
             {
+                if (!_validateCaptcha)
+                    return true;
+
                 var client = _httpClientFactory.CreateClient();
 
                 var urlWithParameters = $"{_api}?secret={_secret}&response={captchaResponse}";
@@ -61,6 +62,16 @@ namespace ShortUrl.Api
                 _logger.LogError(ex, ex.Message);
                 throw;
             }
+        }
+
+        private T GetAppSettingsValue<T>(string key, T defaultValue)
+        {
+            var value = _configuration.GetValue(key, defaultValue);
+
+            if (value is null)
+                throw new ArgumentNullException($"Invalid Key {key} on the AppSettings.json");
+
+            return value;
         }
     }
 }
