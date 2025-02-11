@@ -8,6 +8,7 @@
         public string Password { get; set; }
         public int Role { get; set; }
 
-        public List<UrlEntity> Urls { get; set; }
+        public IEnumerable<UrlEntity> Urls { get; set; }
+        public IEnumerable<PasswordResetGuidEntity> Guids { get; set; }
     }
 }

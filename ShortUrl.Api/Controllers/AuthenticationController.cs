@@ -37,5 +37,35 @@ namespace ShortUrl.Api.Controllers
                 return ReturnError(HttpStatusCode.InternalServerError, _logger, ex, "Error while authenticating user.");
             }
         }
+
+        [HttpPost("password/forgot")]
+        public IActionResult RequestPasswordReset([FromBody] ForgotPasswordDto forgotPasswordDto)
+        {
+            try
+            {
+                _authenticationService.RequestPasswordReset(forgotPasswordDto);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+
+        [HttpPost("password/reset")]
+        public IActionResult ResetPassword([FromBody] ResetPasswordDto resetPasswordDto)
+        {
+            try
+            {
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
     }
 }

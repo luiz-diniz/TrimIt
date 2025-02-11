@@ -17,7 +17,7 @@ namespace ShortUrl.Core.Mappings
         {
             CreateMap<UrlDTO, UrlEntity>()
                    .ForMember(dest => dest.OriginalUrl, opt => opt.MapFrom(src => src.Url))
-                   .ForMember(dest => dest.ExpiryDate, opt => opt.MapFrom(src => src.ExpiryDate ?? DateTime.UtcNow.AddDays(7)))
+                   .ForMember(dest => dest.ExpirationDateTime, opt => opt.MapFrom(src => src.ExpirationDateTime ?? DateTime.UtcNow.AddDays(7)))
                    .ForMember(dest => dest.IdUser, opt => opt.MapFrom(src => src.IdUser <= 0 ? null : src.IdUser));
 
             CreateMap<UserRegisterDTO, UserEntity>()
@@ -41,7 +41,7 @@ namespace ShortUrl.Core.Mappings
                 .ForMember(dest => dest.ShortUrl, opt => opt.MapFrom(src => src.OriginalUrl))
                 .ForMember(dest => dest.Clicks, opt => opt.MapFrom(src => src.Clicks))
                 .ForMember(dest => dest.LastClick, opt => opt.MapFrom(src => src.LastClick))
-                .ForMember(dest => dest.ExpiryDate, opt => opt.MapFrom(src => src.ExpiryDate));
+                .ForMember(dest => dest.ExpirationDateTime, opt => opt.MapFrom(src => src.ExpirationDateTime));
 
             CreateMap<UserEntity, UserProfileDto>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))

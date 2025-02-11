@@ -13,14 +13,14 @@ namespace ShortUrl.Core
     {
         private readonly ILogger<UserService> _logger;
         private readonly IUserRepository _userRepository;
-        private readonly IPasswordService _passwordService;
+        private readonly IPasswordHashService _passwordHashService;
         private readonly IMapper _mapper;
 
-        public UserService(ILogger<UserService> logger, IUserRepository userRepository, IPasswordService passwordService, IMapper mapper)
+        public UserService(ILogger<UserService> logger, IUserRepository userRepository, IPasswordHashService passwordHashService, IMapper mapper)
         {
             _logger = logger;
             _userRepository = userRepository;
-            _passwordService = passwordService;
+            _passwordHashService = passwordHashService;
             _mapper = mapper;
         }
 
@@ -30,7 +30,7 @@ namespace ShortUrl.Core
             {
                 var userEntity = _mapper.Map<UserEntity>(userRegisterDto);
 
-                userEntity.Password = _passwordService.HashInputPassword(userEntity.Password);
+                userEntity.Password = _passwordHashService.HashInputPassword(userEntity.Password);
 
                 _userRepository.Create(userEntity);
             }
@@ -69,6 +69,24 @@ namespace ShortUrl.Core
                     throw new UserNotFound($"User with Id {id} was not found.");
 
                 return _mapper.Map<UserProfileDto>(user);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                throw;
+            }
+        }
+
+        public int GetIdByEmail(string email)
+        {
+            try
+            {
+                var idUser = _userRepository.GetIdByEmail(email);
+
+                if(idUser == 0)
+                    throw new UserNotFound($"User with Email {email} was not found.");
+
+                return idUser;
             }
             catch (Exception ex)
             {

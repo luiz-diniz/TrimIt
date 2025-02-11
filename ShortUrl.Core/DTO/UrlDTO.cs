@@ -11,7 +11,7 @@ namespace ShortUrl.Core.DTO
         [Required]
         public string CaptchaResponse { get; set; }
 
-        public DateTime? ExpiryDate { get; set; }
+        public DateTime? ExpirationDateTime { get; set; }
 
         public int? IdUser { get; set; }
     }

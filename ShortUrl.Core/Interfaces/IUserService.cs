@@ -1,6 +1,5 @@
 ﻿using ShortUrl.Core.DTO;
 using ShortUrl.Core.Models;
-using ShortUrl.Entities;
 
 namespace ShortUrl.Core.Interfaces
 {
@@ -9,5 +8,6 @@ namespace ShortUrl.Core.Interfaces
         void Create(UserRegisterDTO user);
         UserCredentialsModel GetCredentialsByEmail(string email);
         UserProfileDto GetProfileById(int id);
+        int GetIdByEmail(string email);
     }
 }

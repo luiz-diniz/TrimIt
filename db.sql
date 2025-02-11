@@ -8,6 +8,15 @@ CREATE TABLE IF NOT EXISTS users (
     role INTEGER DEFAULT 2 NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS password_reset_guids (
+    id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    id_user INTEGER,
+    guid VARCHAR(36) NOT NULL,
+    expiration_datetime TIMESTAMP NOT NULL,
+
+    FOREIGN KEY (id_user) REFERENCES users(id) ON DELETE CASCADE
+);
+
 CREATE TABLE IF NOT EXISTS urls (
     id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     id_user INTEGER,
@@ -15,6 +24,7 @@ CREATE TABLE IF NOT EXISTS urls (
     short_url TEXT NOT NULL,
     clicks INTEGER DEFAULT 0,
     last_click TIMESTAMP,
-    expiry_date TIMESTAMP NOT NULL,
-    FOREIGN KEY (id_user) REFERENCES users(id) ON DELETE SET NULL
+    expiration_datetime TIMESTAMP NOT NULL,
+
+    FOREIGN KEY (id_user) REFERENCES users(id) ON DELETE CASCADE
 );

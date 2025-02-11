@@ -25,11 +25,13 @@ namespace ShortUrl.Api.Extensions
 
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IPasswordResetGuidRepository, PasswordResetGuidRepository>();
 
             services.AddSingleton<IReCaptchaValidator, ReCaptchaValidator>();
-            services.AddSingleton<IPasswordService, PasswordService>();
+            services.AddSingleton<IPasswordHashService, PasswordHashService>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddSingleton<ITokenService, TokenService>();
+            services.AddSingleton<IEmailService, EmailService>();
 
             services.AddHostedService<ExpiredUrlService>();
 

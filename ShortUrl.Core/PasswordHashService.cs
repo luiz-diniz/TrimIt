@@ -3,7 +3,7 @@ using static BCrypt.Net.BCrypt;
 
 namespace ShortUrl.Core
 {
-    public class PasswordService : IPasswordService
+    public class PasswordHashService : IPasswordHashService
     {
         public string HashInputPassword(string password)
         {

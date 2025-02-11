@@ -7,6 +7,6 @@
         public string ShortUrl { get; set; }
         public int Clicks { get; set; }
         public DateTime? LastClick { get; set; }
-        public DateTime ExpiryDate { get; set; }
+        public DateTime ExpirationDateTime { get; set; }
     }
 }

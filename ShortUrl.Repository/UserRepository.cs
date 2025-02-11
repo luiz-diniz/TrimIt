@@ -20,12 +20,17 @@ namespace ShortUrl.Repository
         }
         public UserEntity? GetByEmail(string email)
         {
-            return _context.User.FirstOrDefault(u => u.Email == email);
+            return _context.Users.FirstOrDefault(u => u.Email == email);
         }
 
         public UserEntity? GetById(int id)
         {
-            return _context.User.Include(x => x.Urls).FirstOrDefault(u => u.Id == id);
+            return _context.Users.Include(x => x.Urls).FirstOrDefault(u => u.Id == id);
+        }
+
+        public int GetIdByEmail(string email)
+        {
+            return _context.Users.FirstOrDefault(u => u.Email == email)?.Id ?? 0;
         }
     }
 }

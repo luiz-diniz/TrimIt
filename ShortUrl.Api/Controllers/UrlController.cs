@@ -28,9 +28,6 @@ public class UrlController : ApiControllerBase
     {
         try
         {
-            if(!ModelState.IsValid)
-                return ReturnError(HttpStatusCode.BadRequest, "Invalid data provided.");
-
             if (!await _reCaptchaValidator.ValidateReCaptcha(url.CaptchaResponse))
                 return ReturnError(HttpStatusCode.BadRequest, "Invalid Captcha.");
 

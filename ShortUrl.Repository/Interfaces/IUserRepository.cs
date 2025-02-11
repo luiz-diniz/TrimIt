@@ -7,5 +7,6 @@ namespace ShortUrl.Repository.Interfaces
         void Create(UserEntity user);
         UserEntity? GetByEmail(string email);
         UserEntity? GetById(int id);
+        int GetIdByEmail(string email);
     }
 }

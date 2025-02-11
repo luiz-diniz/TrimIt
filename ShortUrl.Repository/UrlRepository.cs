@@ -11,6 +11,7 @@ namespace ShortUrl.Repository
         {
             _context = context;
         }
+
         public void Create(UrlEntity url)
         {
             _context.Add(url);
@@ -47,7 +48,7 @@ namespace ShortUrl.Repository
 
         public int DeleteExpiredUrls()
         {
-            var expiredUrls = _context.Urls.Where(x => x.ExpiryDate < DateTime.UtcNow).ToList();
+            var expiredUrls = _context.Urls.Where(x => x.ExpirationDateTime < DateTime.UtcNow).ToList();
 
             var expiredUrlsCount = expiredUrls.Count();
 
