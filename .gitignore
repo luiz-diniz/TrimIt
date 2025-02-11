@@ -364,3 +364,4 @@ FodyWeavers.xsd
 
 /.vscode
 /docker-commands.txt
+/ShortUrl.Api/appsettings.Development.json
